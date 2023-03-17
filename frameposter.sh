@@ -195,7 +195,8 @@ if [[ -e "${log}" ]] && grep -qE "\[√\] Frame: ${prev_frame}, Episode ${episod
 fi
 
 # This is where you can change your post captions and own format (that one below is the default)
-message="Season ${season}, Episode ${episode}, Frame ${prev_frame} out of ${total_frame}"
+# message="Season ${season}, Episode ${episode}, Frame ${prev_frame} out of ${total_frame}"
+message="Tenki no Ko, Frame ${prev_frame} out of ${total_frame}"
 
 # Call the Scraper of Subs
 # scrv3 "$(nth "${prev_frame}")"
