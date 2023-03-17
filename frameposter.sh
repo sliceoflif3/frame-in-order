@@ -179,7 +179,9 @@ dep_check awk sed grep curl bc || failed
 # Create DIRs and files for iterator and temps/logs
 [[ ! -d ./fb ]] && mkdir ./fb
 [[ ! -e ./fb/frameiterator ]] && printf '%s' "1" > ./fb/frameiterator
-[[ -z "$(<./fb/frameiterator)" ]] && printf '%s' "1" > ./fb/frameiterator
+# [[ -z "$(<./fb/frameiterator)" ]] && printf '%s' "1" > ./fb/frameiterator
+{ [[ -z "$(<./fb/frameiterator)" ]] || [[ "$(<./fb/frameiterator)" -lt 1 ]] ;} && printf '%s' "1" > ./fb/frameiterator
+
 [[ "${total_frame}" -lt "$(<./fb/frameiterator)" ]] && exit 0
 
 # Get the previous frame from a file that acts like an iterator
@@ -196,7 +198,11 @@ fi
 message="Season ${season}, Episode ${episode}, Frame ${prev_frame} out of ${total_frame}"
 
 # Call the Scraper of Subs
-scrv3 "$(nth "${prev_frame}")"
+# scrv3 "$(nth "${prev_frame}")"
+
+if [[ "${sub_posting}" = "1" ]] && [[ -e "${locationsub}" ]] && [[ -n "$(<${locationsub})" ]]; then
+	scrv3 "$(nth "${prev_frame}")"
+fi
 
 # Compare if the Subs are OP/ED Songs or Not
 if [[ "${is_opedsong}" = "1" ]]; then
